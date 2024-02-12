@@ -258,7 +258,12 @@ encoding/end-of-line detection and external-format abstraction for Common Lisp."
                         (substitute* (find-files (getcwd) "\\.lisp$")
                           (("ql:quickload")
                            "asdf:load-systems"))))
-                    (add-after 'override-ql 'redirect-home
+                    (add-after 'override-ql 'fix-which
+                      (lambda* _
+                        (substitute* "src/system.lisp"
+                          (("which")
+                           (which "which")))))
+                    (add-after 'fix-which 'redirect-home
                       (lambda _
                         (setenv "HOME" "/tmp")))
                     (add-after 'create-asdf-configuration 'build-program
@@ -279,6 +284,7 @@ encoding/end-of-line detection and external-format abstraction for Common Lisp."
                                          #:entry-program '((lem:main)
                                                            0))))))))
       (inputs (list
+               which
                ;; lem.asd
                sbcl-alexandria
                sbcl-trivia
