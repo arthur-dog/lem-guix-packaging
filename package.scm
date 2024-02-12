@@ -14,30 +14,6 @@
              (gnu packages lisp-check)
              (gnu packages lisp-xyz))
 
-(define sbcl-iconv
-  (let ((commit "54900c3f00e19da15a9c65451bddde839d0a7f75")
-        (revision "0"))
-    (package
-      (name "sbcl-iconv")
-      (version (git-version "0.3" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://github.com/quek/cl-iconv")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1lpw95c02inifhdh9kkab9q92i5w9zd788dww1wly2p0a6kyx9wg"))))
-      (build-system asdf-build-system/sbcl)
-      (inputs (list sbcl-cffi libiconv))
-      (home-page "https://github.com/quek/cl-iconv")
-      (synopsis "iconv(man 3 iconv) library for Common Lisp")
-      (description
-       "This package provides CFFI bindings to convert between different
-character encodings using iconv.")
-      (license license:expat))))
-
 (define sbcl-cl-setlocale
   (let ((commit "f660d07dac72bc3e99caae1c6c8a789991e2694c")
         (revision "0"))
@@ -254,7 +230,7 @@ encoding/end-of-line detection and external-format abstraction for Common Lisp."
       (license license:expat))))
 
 (define lem
-  (let ((commit "e366bda73b7e5263cf9ba19678f9b958df48332b")
+  (let ((commit "9fc9464039cf7cfa2ebc57781d7efb96674b6a1d")
         (revision "0"))
     (package
       (name "lem")
@@ -266,7 +242,7 @@ encoding/end-of-line detection and external-format abstraction for Common Lisp."
                (url "https://github.com/lem-project/lem/")
                (commit commit)))
          (sha256
-          (base32 "1p9i3111ybhbjnv0h3xmygcxrlja1h68hpmyhxhjq5gjwmwg5hv8"))
+          (base32 "1z0ih0j3jvd10jgixpcd2jm7a55l7005vhnz8wsz9b5w2bi8x5nq"))
          (file-name (git-file-name name version))
          (snippet #~(begin
                       (use-modules (guix build utils))
@@ -336,8 +312,6 @@ encoding/end-of-line detection and external-format abstraction for Common Lisp."
                sbcl-quri
                sbcl-cl-change-case
                sbcl-async-process
-               ;; lem-encodings-table
-               sbcl-iconv
                ;; lem-vi-mode
                sbcl-esrap
                sbcl-parse-number
