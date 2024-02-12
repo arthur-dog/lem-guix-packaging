@@ -101,14 +101,16 @@ Tested on ABCL, but should work on any implementation.")
                (commit commit)))
          (sha256
           (base32 "13hwx7swlibk9wbix1jfjw23bmwpjq46lh405386w8l95p5ga322"))
-         (file-name (git-file-name "micros" version))
-         (snippet #~(begin
-                      (use-modules (guix build utils))
-                      (substitute* "lsp-api.lisp"
-                        (("ql:quickload")
-                         "asdf:load-systems"))))))
+         (file-name (git-file-name "micros" version))))
       (build-system asdf-build-system/sbcl)
       (native-inputs (list sbcl-rove))
+      (arguments
+       '(#:phases (modify-phases %standard-phases
+                    (add-after 'unpack 'override-ql
+                      (lambda* _
+                        (substitute* (find-files (getcwd) "\\.lisp$")
+                          (("ql:quickload")
+                           "asdf:load-systems")))))))
       (synopsis "SLIME/SWANK implementation for the Lem editor")
       (description
        "Micros is a SLIME/SWANK implementation meant for use by
